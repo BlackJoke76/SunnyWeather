@@ -1,5 +1,6 @@
 package com.sunnyweather.android.ui.place
 
+import android.content.Context
 import androidx.lifecycle.*
 import com.sunnyweather.android.logic.Repository
 import com.sunnyweather.android.logic.model.Place
@@ -23,5 +24,7 @@ class PlaceViewModel : ViewModel() {
     fun getSavedPlace() = Repository.getSavedPlace()
 
     fun isPlaceSaved() = Repository.isPlaceSaved()
+
+    fun getLocal(context: Context) = Repository.getLocal(context)
 
 }
