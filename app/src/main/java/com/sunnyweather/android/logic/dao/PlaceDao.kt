@@ -47,7 +47,7 @@ object PlaceDao {
 
 
         val Location:Location = Location(location.latitude.toString(),location.longitude.toString());
-        var LocalPlace:Place = Place(addressList[0].getAddressLine(1),Location,addressList[0].getAddressLine(1)+addressList[0].getAddressLine(2)+"  你的定位");
+        var LocalPlace:Place = Place(addressList[0].getAddressLine(1)+"  你的定位",Location,addressList[0].getAddressLine(1)+addressList[0].getAddressLine(2));
 
         return LocalPlace;
     }
