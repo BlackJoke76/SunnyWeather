@@ -25,6 +25,6 @@ class PlaceViewModel : ViewModel() {
 
     fun isPlaceSaved() = Repository.isPlaceSaved()
 
-    fun getLocal(context: Context) = Repository.getLocal(context)
+    fun getLocalPlace() = Repository.getLocalPlace()
 
 }

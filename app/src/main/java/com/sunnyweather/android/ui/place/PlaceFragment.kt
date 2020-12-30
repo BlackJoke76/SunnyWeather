@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sunnyweather.android.MainActivity
 import com.sunnyweather.android.R
+import com.sunnyweather.android.SunnyWeatherApplication
 import com.sunnyweather.android.ui.weather.WeatherActivity
 import kotlinx.android.synthetic.main.fragment_place.*
 
@@ -43,6 +44,8 @@ class PlaceFragment : Fragment() {
         recyclerView.layoutManager = layoutManager
         adapter = PlaceAdapter(this, viewModel.placeList)
         recyclerView.adapter = adapter
+        val LocalPlace = viewModel.getLocalPlace();
+        searchPlaceEdit?.setText(LocalPlace.name)
         searchPlaceEdit.addTextChangedListener { editable ->
             val content = editable.toString()
             if (content.isNotEmpty()) {
@@ -67,6 +70,7 @@ class PlaceFragment : Fragment() {
                 result.exceptionOrNull()?.printStackTrace()
             }
         })
+
     }
 
 }

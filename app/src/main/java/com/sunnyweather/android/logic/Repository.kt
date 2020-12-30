@@ -53,7 +53,7 @@ object Repository{
 
     fun isPlaceSaved() = PlaceDao.isPlaceSaved()
 
-    fun getLocal(context:Context) = PlaceDao.getLocal(context);
+    fun getLocalPlace() = PlaceDao.getLocalPlace();
 
     private fun <T> fire(context: CoroutineContext, block: suspend () -> Result<T>) =
         liveData<Result<T>>(context) {
