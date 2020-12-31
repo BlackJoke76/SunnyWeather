@@ -1,9 +1,14 @@
 package com.sunnyweather.android.ui.weather
 
 import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -22,13 +27,15 @@ import kotlinx.android.synthetic.main.activity_weather.*
 import kotlinx.android.synthetic.main.forecast.*
 import kotlinx.android.synthetic.main.life_index.*
 import kotlinx.android.synthetic.main.now.*
+import java.io.File
+import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
 class WeatherActivity : AppCompatActivity() {
 
     val viewModel by lazy { ViewModelProviders.of(this).get(WeatherViewModel::class.java) }
-
+    private var imagePath: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (Build.VERSION.SDK_INT >= 21) {
@@ -64,6 +71,20 @@ class WeatherActivity : AppCompatActivity() {
         navBtn.setOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
         }
+
+        navBtn1.setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
+
+        navBtn2.setOnClickListener{
+            screenshot()
+            val path: String? = imagePath
+            val imageIntent = Intent(Intent.ACTION_SEND)
+            imageIntent.type = "image/jpeg"
+            imageIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(path))
+            startActivity(Intent.createChooser(imageIntent, "分享"))
+        }
+
         drawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
             override fun onDrawerStateChanged(newState: Int) {}
 
@@ -123,4 +144,27 @@ class WeatherActivity : AppCompatActivity() {
         weatherLayout.visibility = View.VISIBLE
     }
 
+    //截取屏幕的方法
+    private fun screenshot() {
+        // 获取屏幕
+        val dView = window.decorView
+        dView.isDrawingCacheEnabled = true
+        dView.buildDrawingCache()
+        val bmp: Bitmap? = dView.drawingCache
+        if (bmp != null) {
+            try {
+                // 获取内置SD卡路径
+                val sdCardPath: String = Environment.getExternalStorageDirectory().getPath()
+                // 图片文件路径
+                imagePath = sdCardPath + File.separator.toString() + "screenshot.png"
+                val file = File(imagePath)
+                Log.d(imagePath,"111")
+                val os = FileOutputStream(file)
+                bmp.compress(Bitmap.CompressFormat.PNG, 100, os)
+                os.flush()
+                os.close()
+            } catch (e: Exception) {
+            }
+        }
+    }
 }
