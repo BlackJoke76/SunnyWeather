@@ -1,0 +1,21 @@
+[33m8f54a6d[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m HEAD@{0}: reset: moving to HEAD^
+[33m9198629[m HEAD@{1}: reset: moving to HEAD^
+[33md6f02b7[m HEAD@{2}: commit (merge): Merge remote-tracking branch 'origin/main'
+[33m9198629[m HEAD@{3}: reset: moving to HEAD^
+[33m9494991[m HEAD@{4}: reset: moving to HEAD^
+[33m9da2428[m HEAD@{5}: commit: modified: .gradle/6.1.1/executionHistory/executionHistory.bin
+[33m9494991[m HEAD@{6}: reset: moving to HEAD
+[33m9494991[m HEAD@{7}: commit: Changes to be committed:
+[33m9198629[m HEAD@{8}: reset: moving to HEAD
+[33m9198629[m HEAD@{9}: reset: moving to HEAD
+[33m9198629[m HEAD@{10}: reset: moving to HEAD^
+[33mdefdd32[m HEAD@{11}: reset: moving to HEAD
+[33mdefdd32[m HEAD@{12}: reset: moving to HEAD
+[33mdefdd32[m HEAD@{13}: commit (merge): merge
+[33m9198629[m HEAD@{14}: reset: moving to head
+[33m9198629[m HEAD@{15}: checkout: moving from main to main
+[33m9198629[m HEAD@{16}: commit: test1
+[33m8f54a6d[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m HEAD@{17}: commit: GPS and NetWork Location
+[33m6b4b98d[m HEAD@{18}: commit: GPS and NetWork Location
+[33m0c3f1fb[m HEAD@{19}: commit: First commit.
+[33mb2ea56e[m HEAD@{20}: clone: from https://github.com/BlackJoke76/SunnyWeather.git
