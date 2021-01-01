@@ -73,4 +73,5 @@ class PlaceFragment : Fragment() {
 
     }
 
+
 }
