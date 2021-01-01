@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sunnyweather.android.R
 import com.sunnyweather.android.logic.model.Place
 import com.sunnyweather.android.ui.weather.WeatherActivity
+import kotlin.concurrent.thread
 
 class PreferencePlaceAdapter(private val activity: Activity, private val PreferencePlaceList: List<Place>) : RecyclerView.Adapter<PreferencePlaceAdapter.ViewHolder>() {
 
@@ -25,16 +26,8 @@ class PreferencePlaceAdapter(private val activity: Activity, private val Prefere
         holder.itemView.setOnClickListener {
             val position = holder.adapterPosition
             val place = PreferencePlaceList[position]
-            if (activity is PerferencePlaceActivity)
-            {
-                activity.viewModel.searchPlaces(place.name)
-                val intent = Intent(parent.context, WeatherActivity::class.java).apply {
-                    putExtra("location_lng", place.location.lng)
-                    putExtra("location_lat", place.location.lat)
-                    putExtra("place_name", place.name)
-                }
-                activity.startActivity(intent)
-            }
+            if (activity is PreferencePlaceActivity)
+                    activity.viewModel.searchPlaces(place.name)
 
         }
         return holder

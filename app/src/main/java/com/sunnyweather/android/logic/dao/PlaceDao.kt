@@ -23,7 +23,7 @@ object PlaceDao {
         }
     }
 
-    fun savePreferencePlace(places:List<Place>){
+    fun savePreferencePlaces(places:List<Place>){
         sharedPreferences().edit{
             putString("places",Gson().toJson(places));
         }
@@ -34,7 +34,7 @@ object PlaceDao {
         return Gson().fromJson(placeJson, Place::class.java)
     }
 
-    fun getPreferencePlace(): List<Place>{
+    fun getPreferencePlaces(): List<Place>{
         val placeJsonArray = sharedPreferences().getString("places","");
         return Gson().fromJson(placeJsonArray,
             object : TypeToken<List<Place?>?>() {}.type

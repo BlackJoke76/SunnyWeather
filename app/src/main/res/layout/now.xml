@@ -36,7 +36,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="350dp"
+            android:layout_marginStart="330dp"
             android:background="@drawable/ic_menu" />
 
         <Button
@@ -44,7 +44,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="300dp"
+            android:layout_marginStart="290dp"
             android:background="@drawable/ic_share" />
 
     </FrameLayout>

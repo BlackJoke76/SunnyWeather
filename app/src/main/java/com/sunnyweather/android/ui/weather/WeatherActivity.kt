@@ -10,6 +10,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.preference.PreferenceActivity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +26,8 @@ import androidx.lifecycle.ViewModelProviders
 import com.sunnyweather.android.R
 import com.sunnyweather.android.logic.model.Weather
 import com.sunnyweather.android.logic.model.getSky
+import com.sunnyweather.android.ui.place.PreferencePlaceActivity
+import com.sunnyweather.android.ui.place.PreferencePlaceAdapter
 import kotlinx.android.synthetic.main.activity_weather.*
 import kotlinx.android.synthetic.main.forecast.*
 import kotlinx.android.synthetic.main.life_index.*
@@ -76,10 +79,12 @@ class WeatherActivity : AppCompatActivity() {
 
         navBtn1.setOnClickListener {
            // getBitmapFromView()
+            val intent = Intent(this,PreferencePlaceActivity::class.java)
+            this.startActivity(intent)
         }
 
         navBtn2.setOnClickListener{
-            screenshot()
+//            screenshot()
             val path: String? = imagePath
             val imageIntent = Intent(Intent.ACTION_SEND)
             imageIntent.type = "image/jpeg"
@@ -153,29 +158,29 @@ class WeatherActivity : AppCompatActivity() {
         weatherLayout.visibility = View.VISIBLE
     }
 
-    //截取屏幕的方法
-    private fun screenshot() {
-        // 获取屏幕
-        val dView = window.decorView
-        dView.isDrawingCacheEnabled = true
-        dView.buildDrawingCache()
-        val bmp: Bitmap? = dView.drawingCache
-        if (bmp != null) {
-            try {
-                // 获取内置SD卡路径
-                val sdCardPath: String = Environment.getExternalStorageDirectory().getPath()
-                // 图片文件路径
-                imagePath = sdCardPath + File.separator.toString() + "screenshot.png"
-                val file = File(imagePath)
-                Log.d(imagePath, "111")
-                val os = FileOutputStream(file)
-                bmp.compress(Bitmap.CompressFormat.PNG, 100, os)
-                os.flush()
-                os.close()
-            } catch (e: Exception) {
-            }
-        }
-    }
+//    //截取屏幕的方法
+//    private fun screenshot() {
+//        // 获取屏幕
+//        val dView = window.decorView
+//        dView.isDrawingCacheEnabled = true
+//        dView.buildDrawingCache()
+//        val bmp: Bitmap? = dView.drawingCache
+//        if (bmp != null) {
+//            try {
+//                // 获取内置SD卡路径
+//                val sdCardPath: String = Environment.getExternalStorageDirectory().getPath()
+//                // 图片文件路径
+//                imagePath = sdCardPath + File.separator.toString() + "screenshot.png"
+//                val file = File(imagePath)
+//                Log.d(imagePath, "111")
+//                val os = FileOutputStream(file)
+//                bmp.compress(Bitmap.CompressFormat.PNG, 100, os)
+//                os.flush()
+//                os.close()
+//            } catch (e: Exception) {
+//            }
+//        }
+//    }
 
 //        /**
 //         * 截取除了导航栏之外的整个屏幕
