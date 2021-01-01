@@ -1,17 +1,19 @@
 package com.sunnyweather.android.logic.dao
 
 import android.Manifest
-import android.location.Address
 import android.content.Context
+import android.location.Address
 import android.location.Geocoder
 import android.location.LocationManager
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.sunnyweather.android.SunnyWeatherApplication
 import com.sunnyweather.android.logic.model.Location
 import com.sunnyweather.android.logic.model.Place
 import java.io.IOException
+
 
 object PlaceDao {
 
@@ -21,9 +23,22 @@ object PlaceDao {
         }
     }
 
+    fun savePreferencePlace(places:List<Place>){
+        sharedPreferences().edit{
+            putString("places",Gson().toJson(places));
+        }
+    }
+
     fun getSavedPlace(): Place {
         val placeJson = sharedPreferences().getString("place", "")
         return Gson().fromJson(placeJson, Place::class.java)
+    }
+
+    fun getPreferencePlace(): List<Place>{
+        val placeJsonArray = sharedPreferences().getString("places","");
+        return Gson().fromJson(placeJsonArray,
+            object : TypeToken<List<Place?>?>() {}.type
+        )
     }
 
     fun getLocalPlace():Place{
