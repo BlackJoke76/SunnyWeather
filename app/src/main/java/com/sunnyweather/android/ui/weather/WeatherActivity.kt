@@ -3,7 +3,9 @@ package com.sunnyweather.android.ui.weather
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Color
+import android.media.projection.MediaProjectionManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -73,7 +75,7 @@ class WeatherActivity : AppCompatActivity() {
         }
 
         navBtn1.setOnClickListener {
-            drawerLayout.openDrawer(GravityCompat.START)
+           // getBitmapFromView()
         }
 
         navBtn2.setOnClickListener{
@@ -94,7 +96,10 @@ class WeatherActivity : AppCompatActivity() {
 
             override fun onDrawerClosed(drawerView: View) {
                 val manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                manager.hideSoftInputFromWindow(drawerView.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+                manager.hideSoftInputFromWindow(
+                    drawerView.windowToken,
+                    InputMethodManager.HIDE_NOT_ALWAYS
+                )
             }
         })
     }
@@ -121,7 +126,11 @@ class WeatherActivity : AppCompatActivity() {
         for (i in 0 until days) {
             val skycon = daily.skycon[i]
             val temperature = daily.temperature[i]
-            val view = LayoutInflater.from(this).inflate(R.layout.forecast_item, forecastLayout, false)
+            val view = LayoutInflater.from(this).inflate(
+                R.layout.forecast_item,
+                forecastLayout,
+                false
+            )
             val dateInfo = view.findViewById(R.id.dateInfo) as TextView
             val skyIcon = view.findViewById(R.id.skyIcon) as ImageView
             val skyInfo = view.findViewById(R.id.skyInfo) as TextView
@@ -158,7 +167,7 @@ class WeatherActivity : AppCompatActivity() {
                 // 图片文件路径
                 imagePath = sdCardPath + File.separator.toString() + "screenshot.png"
                 val file = File(imagePath)
-                Log.d(imagePath,"111")
+                Log.d(imagePath, "111")
                 val os = FileOutputStream(file)
                 bmp.compress(Bitmap.CompressFormat.PNG, 100, os)
                 os.flush()
@@ -167,4 +176,32 @@ class WeatherActivity : AppCompatActivity() {
             }
         }
     }
+
+//        /**
+//         * 截取除了导航栏之外的整个屏幕
+//         */
+//        private fun screenShotWholeScreen(): Bitmap? {
+//            val dView = window.decorView
+//
+//            dView.isDrawingCacheEnabled = true
+//            dView.buildDrawingCache()
+//            return Bitmap.createBitmap(dView.drawingCache)
+//        }
+
+//        open fun getBitmapFromView(view: View): Bitmap? {
+//            var bitmap =
+//                Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+//            var canvas = Canvas(bitmap)
+//            view.draw(canvas)
+//            return bitmap
+//        }
+//
+//        open fun getBitmapFromView(view: View, defaultColor: Int): Bitmap? {
+//            var bitmap =
+//                Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+//            var canvas = Canvas(bitmap)
+//            canvas.drawColor(defaultColor)
+//            view.draw(canvas)
+//            return bitmap
+//        }
 }
