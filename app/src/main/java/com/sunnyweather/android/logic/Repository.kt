@@ -1,6 +1,5 @@
 package com.sunnyweather.android.logic
 
-import android.content.Context
 import androidx.lifecycle.liveData
 import com.sunnyweather.android.logic.dao.PlaceDao
 import com.sunnyweather.android.logic.model.Place
@@ -23,7 +22,7 @@ object Repository{
         }
     }
 
-    fun refreshWeather(lng: String, lat: String, placeName: String) = fire(Dispatchers.IO) {
+    fun refreshWeather(lng: String, lat: String) = fire(Dispatchers.IO) {
         coroutineScope {
             val deferredRealtime = async {
                 SunnyWeatherNetwork.getRealtimeWeather(lng, lat)
@@ -53,11 +52,11 @@ object Repository{
 
     fun isPlaceSaved() = PlaceDao.isPlaceSaved()
 
-    fun getLocalPlace() = PlaceDao.getLocalPlace();
+    fun getLocalPlace() = PlaceDao.getLocalPlace()
 
-    fun getPreferencePlaces() = PlaceDao.getPreferencePlaces();
+    fun getPreferencePlaces() = PlaceDao.getPreferencePlaces()
 
-    fun savePreferencePlaces(places:List<Place>) = PlaceDao.savePreferencePlaces(places)
+    fun savePreferencePlaces(places: MutableList<Place>) = PlaceDao.savePreferencePlaces(places)
 
     fun isPreferencePlacesSaved() = PlaceDao.isSavePreferencePlaces()
 

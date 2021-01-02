@@ -3,10 +3,7 @@ package com.sunnyweather.android.ui.place
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.EditText
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -29,31 +26,28 @@ class PreferencePlaceActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preference_place)
 
-    //    viewModel.savePreferencePlaces(listOf(viewModel.getLocalPlace()))
-        var PreferenceList:List<Place> = listOf()
+        var preferenceList:MutableList<Place> = mutableListOf()
         if(viewModel.isPreferencePlacesSaved()) {
-            PreferenceList = viewModel.getPreferencePlaces().toMutableList()
+            preferenceList = viewModel.getPreferencePlaces().toMutableList()
         }
-        PreferenceList += viewModel.getLocalPlace()
+        addList(viewModel.getLocalPlace().name,preferenceList)
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
-        adapter = PreferencePlaceAdapter(this, PreferenceList)
+        adapter = PreferencePlaceAdapter(this, preferenceList)
         recyclerView.adapter = adapter
 
         fab.setOnClickListener{
-            var PlaceName = "";
-            val  inputServer: EditText =  EditText(this);
-            val builder: AlertDialog.Builder =  AlertDialog.Builder(this);
+            var PlaceName = ""
+            val  inputServer: EditText =  EditText(this)
+            val builder: AlertDialog.Builder =  AlertDialog.Builder(this)
             builder.setTitle("Add").setIcon(android.R.drawable.ic_dialog_info).setView(inputServer)
-                .setNegativeButton("Cancel", null);
-            builder.setPositiveButton("Ok") { _: DialogInterface, i: Int ->
-                PlaceName = inputServer.text.toString();
-                PreferenceList += Place(PlaceName, Location("", ""), "")
-                viewModel.savePreferencePlaces(PreferenceList)
-                adapter.notifyDataSetChanged()
-            };
-            adapter.notifyDataSetChanged()
-            builder.show();
+                .setNegativeButton("Cancel", null)
+            builder.setPositiveButton("Ok") { _: DialogInterface, _: Int ->
+                PlaceName = inputServer.text.toString()
+                addList(PlaceName,preferenceList)
+                viewModel.savePreferencePlaces(preferenceList)
+            }
+            builder.show()
         }
 
         viewModel.placeLiveData.observe(this, Observer{ result ->
@@ -71,16 +65,15 @@ class PreferencePlaceActivity : AppCompatActivity() {
             }
         })
     }
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu,menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.number_item -> Toast.makeText(this,"B20180302114", Toast.LENGTH_SHORT).show()
-            R.id.name_item -> Toast.makeText(this,"朱家伟", Toast.LENGTH_SHORT).show()
+     private fun addList(PlaceName: String, PreferenceList:MutableList<Place>){
+        var flag = true
+        for(it in PreferenceList){
+            if(PlaceName == it.name) {
+                flag = false
+                break
+            }
         }
-        return true
+        if(flag)
+            PreferenceList.add(Place(PlaceName, Location("",""),""))
     }
 }

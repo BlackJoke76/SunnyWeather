@@ -24,7 +24,7 @@ class PlaceViewModel : ViewModel() {
 
     fun getSavedPlace() = Repository.getSavedPlace()
 
-    fun savePreferencePlaces(places: List<Place>) = Repository.savePreferencePlaces(places)
+    fun savePreferencePlaces(places: MutableList<Place>) = Repository.savePreferencePlaces(places)
 
     fun getPreferencePlaces() = Repository.getPreferencePlaces()
 
