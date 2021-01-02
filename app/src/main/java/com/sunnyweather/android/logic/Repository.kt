@@ -57,7 +57,9 @@ object Repository{
 
     fun getPreferencePlaces() = PlaceDao.getPreferencePlaces();
 
-    fun savePreferencePlaces(places:List<Place>) = PlaceDao.savePreferencePlaces(places);
+    fun savePreferencePlaces(places:List<Place>) = PlaceDao.savePreferencePlaces(places)
+
+    fun isPreferencePlacesSaved() = PlaceDao.isSavePreferencePlaces()
 
     private fun <T> fire(context: CoroutineContext, block: suspend () -> Result<T>) =
         liveData<Result<T>>(context) {

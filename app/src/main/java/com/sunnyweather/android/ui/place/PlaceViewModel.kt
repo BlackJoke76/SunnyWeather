@@ -1,7 +1,8 @@
 package com.sunnyweather.android.ui.place
 
-import android.content.Context
-import androidx.lifecycle.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
 import com.sunnyweather.android.logic.Repository
 import com.sunnyweather.android.logic.model.Place
 
@@ -23,12 +24,14 @@ class PlaceViewModel : ViewModel() {
 
     fun getSavedPlace() = Repository.getSavedPlace()
 
-    fun savePreferencePlaces(places: List<Place>) = Repository.savePreferencePlaces(places);
+    fun savePreferencePlaces(places: List<Place>) = Repository.savePreferencePlaces(places)
 
-    fun getPreferencePlaces() = Repository.getPreferencePlaces();
+    fun getPreferencePlaces() = Repository.getPreferencePlaces()
 
     fun isPlaceSaved() = Repository.isPlaceSaved()
 
     fun getLocalPlace() = Repository.getLocalPlace()
+
+    fun isPreferencePlacesSaved() = Repository.isPreferencePlacesSaved()
 
 }

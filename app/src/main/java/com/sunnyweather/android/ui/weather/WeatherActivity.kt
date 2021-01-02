@@ -2,16 +2,9 @@ package com.sunnyweather.android.ui.weather
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.graphics.Color
-import android.media.projection.MediaProjectionManager
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
-import android.preference.PreferenceActivity
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -27,20 +20,16 @@ import com.sunnyweather.android.R
 import com.sunnyweather.android.logic.model.Weather
 import com.sunnyweather.android.logic.model.getSky
 import com.sunnyweather.android.ui.place.PreferencePlaceActivity
-import com.sunnyweather.android.ui.place.PreferencePlaceAdapter
 import kotlinx.android.synthetic.main.activity_weather.*
 import kotlinx.android.synthetic.main.forecast.*
 import kotlinx.android.synthetic.main.life_index.*
 import kotlinx.android.synthetic.main.now.*
-import java.io.File
-import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
 class WeatherActivity : AppCompatActivity() {
-
+    private var message: String? =null
     val viewModel by lazy { ViewModelProviders.of(this).get(WeatherViewModel::class.java) }
-    private var imagePath: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (Build.VERSION.SDK_INT >= 21) {
@@ -78,18 +67,15 @@ class WeatherActivity : AppCompatActivity() {
         }
 
         navBtn1.setOnClickListener {
-           // getBitmapFromView()
             val intent = Intent(this,PreferencePlaceActivity::class.java)
             this.startActivity(intent)
         }
 
         navBtn2.setOnClickListener{
-//            screenshot()
-            val path: String? = imagePath
-            val imageIntent = Intent(Intent.ACTION_SEND)
-            imageIntent.type = "image/jpeg"
-            imageIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(path))
-            startActivity(Intent.createChooser(imageIntent, "分享"))
+            val textIntent = Intent(Intent.ACTION_SEND)
+            textIntent.type = "text/plain"
+            textIntent.putExtra(Intent.EXTRA_TEXT, message)
+            startActivity(Intent.createChooser(textIntent, "分享"))
         }
 
         drawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
@@ -156,57 +142,8 @@ class WeatherActivity : AppCompatActivity() {
         ultravioletText.text = lifeIndex.ultraviolet[0].desc
         carWashingText.text = lifeIndex.carWashing[0].desc
         weatherLayout.visibility = View.VISIBLE
+        message = viewModel.placeName +"\n"+"今天天气:${currentTemp.text}"+"  ${currentSky.text}"+"\n" +
+                "空气指数：${currentAQI.text}"+"\n"+"感冒:${coldRiskText.text}"+" 穿衣:${dressingText.text}"+"\n"+
+                "实时紫外线:${ultravioletText.text}"+" 洗车:${carWashingText.text}"
     }
-
-//    //截取屏幕的方法
-//    private fun screenshot() {
-//        // 获取屏幕
-//        val dView = window.decorView
-//        dView.isDrawingCacheEnabled = true
-//        dView.buildDrawingCache()
-//        val bmp: Bitmap? = dView.drawingCache
-//        if (bmp != null) {
-//            try {
-//                // 获取内置SD卡路径
-//                val sdCardPath: String = Environment.getExternalStorageDirectory().getPath()
-//                // 图片文件路径
-//                imagePath = sdCardPath + File.separator.toString() + "screenshot.png"
-//                val file = File(imagePath)
-//                Log.d(imagePath, "111")
-//                val os = FileOutputStream(file)
-//                bmp.compress(Bitmap.CompressFormat.PNG, 100, os)
-//                os.flush()
-//                os.close()
-//            } catch (e: Exception) {
-//            }
-//        }
-//    }
-
-//        /**
-//         * 截取除了导航栏之外的整个屏幕
-//         */
-//        private fun screenShotWholeScreen(): Bitmap? {
-//            val dView = window.decorView
-//
-//            dView.isDrawingCacheEnabled = true
-//            dView.buildDrawingCache()
-//            return Bitmap.createBitmap(dView.drawingCache)
-//        }
-
-//        open fun getBitmapFromView(view: View): Bitmap? {
-//            var bitmap =
-//                Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
-//            var canvas = Canvas(bitmap)
-//            view.draw(canvas)
-//            return bitmap
-//        }
-//
-//        open fun getBitmapFromView(view: View, defaultColor: Int): Bitmap? {
-//            var bitmap =
-//                Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
-//            var canvas = Canvas(bitmap)
-//            canvas.drawColor(defaultColor)
-//            view.draw(canvas)
-//            return bitmap
-//        }
 }
