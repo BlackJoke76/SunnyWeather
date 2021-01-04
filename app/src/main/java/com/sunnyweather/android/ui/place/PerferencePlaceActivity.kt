@@ -14,6 +14,7 @@ import com.sunnyweather.android.logic.model.Location
 import com.sunnyweather.android.logic.model.Place
 import com.sunnyweather.android.ui.weather.WeatherActivity
 import kotlinx.android.synthetic.main.activity_preference_place.*
+import kotlin.concurrent.thread
 
 
 class PreferencePlaceActivity : AppCompatActivity() {
@@ -35,21 +36,44 @@ class PreferencePlaceActivity : AppCompatActivity() {
         recyclerView.layoutManager = layoutManager
         adapter = PreferencePlaceAdapter(this, preferenceList)
         recyclerView.adapter = adapter
+        swipeRefresh.setColorSchemeResources(R.color.colorPrimary)
+        swipeRefresh.setOnRefreshListener {
+            refreshPersons(adapter)
+        }
 
         fab.setOnClickListener{
-            var PlaceName = ""
+            var placeName = ""
             val  inputServer: EditText =  EditText(this)
             val builder: AlertDialog.Builder =  AlertDialog.Builder(this)
             builder.setTitle("Add").setIcon(android.R.drawable.ic_dialog_info).setView(inputServer)
                 .setNegativeButton("Cancel", null)
             builder.setPositiveButton("Ok") { _: DialogInterface, _: Int ->
-                PlaceName = inputServer.text.toString()
-                addList(PlaceName,preferenceList)
-                viewModel.savePreferencePlaces(preferenceList)
+                placeName = inputServer.text.toString()
+                    addList(placeName, preferenceList)
+                    viewModel.savePreferencePlaces(preferenceList)
+                adapter.notifyDataSetChanged()
             }
             builder.show()
         }
-
+        fab1.setOnClickListener{
+            var placeName = ""
+            val  inputServer: EditText =  EditText(this)
+            val builder: AlertDialog.Builder =  AlertDialog.Builder(this)
+            builder.setTitle("Delete").setIcon(android.R.drawable.ic_dialog_info).setView(inputServer)
+                .setNegativeButton("Cancel", null)
+            builder.setPositiveButton("Ok") { _: DialogInterface, _: Int ->
+                placeName = inputServer.text.toString()
+                for(it in preferenceList){
+                    if(placeName == it.name) {
+                        preferenceList.remove(it)
+                        break
+                    }
+                }
+                viewModel.savePreferencePlaces(preferenceList)
+                adapter.notifyDataSetChanged()
+            }
+            builder.show()
+        }
         viewModel.placeLiveData.observe(this, Observer{ result ->
             val places = result.getOrNull()
             if (places != null) {
@@ -75,5 +99,14 @@ class PreferencePlaceActivity : AppCompatActivity() {
         }
         if(flag)
             PreferenceList.add(Place(PlaceName, Location("",""),""))
+    }
+    private fun refreshPersons(adapter: PreferencePlaceAdapter) {
+        thread {
+            Thread.sleep(2000)
+            runOnUiThread {
+                adapter.notifyDataSetChanged()
+                swipeRefresh.isRefreshing = false
+            }
+        }
     }
 }

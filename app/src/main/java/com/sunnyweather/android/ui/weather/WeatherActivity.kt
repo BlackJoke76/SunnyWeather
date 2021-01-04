@@ -142,8 +142,8 @@ class WeatherActivity : AppCompatActivity() {
         ultravioletText.text = lifeIndex.ultraviolet[0].desc
         carWashingText.text = lifeIndex.carWashing[0].desc
         weatherLayout.visibility = View.VISIBLE
-        message = viewModel.placeName +"\n"+"今天天气:${currentTemp.text}"+"  ${currentSky.text}"+"\n" +
-                "空气指数：${currentAQI.text}"+"\n"+"感冒:${coldRiskText.text}"+" 穿衣:${dressingText.text}"+"\n"+
+        message = viewModel.placeName +"\n"+"温度:${currentTemp.text}"+"  天气:${currentSky.text}"+"\n" +
+                "${currentAQI.text}"+"\n"+"感冒:${coldRiskText.text}"+" 穿衣:${dressingText.text}"+"\n"+
                 "实时紫外线:${ultravioletText.text}"+" 洗车:${carWashingText.text}"
     }
 }
